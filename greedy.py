@@ -1,6 +1,6 @@
 import point
 import file
-listofinstances=file.read("out.txt")
+listofinstances=file.read("data.txt")
 #listofinstances=point.generatelistofinstances(10)
 #file.write('out.txt',listofinstances)
 print(*listofinstances,sep='\n')
@@ -16,4 +16,4 @@ while listofinstances!=[]:
     listofinstances.pop(listofinstances.index(next))
 print(*path,sep='\n')
 
-print(*matrix,sep='\n')
+#print(*matrix,sep='\n')

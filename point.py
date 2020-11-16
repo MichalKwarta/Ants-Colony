@@ -5,8 +5,9 @@ class Point:
     count=0
     cords=[]   #check if coordinates were already used 
     def __init__(self,id,X,Y):
-        self.id=id
         Point.count+=1
+        self.id=id
+        
         if (X,Y) in Point.cords:
             raise("Już jest taki punkt")
         Point.cords.append((X,Y))
@@ -17,8 +18,7 @@ class Point:
         X,Y=randint(0,MAX),randint(0,MAX)
         while (X,Y) in Point.cords:
             X,Y=randint(0,MAX),randint(0,MAX)
-        
-        return cls(Point.count,X,Y)
+        return cls(Point.count+1,X,Y)
 
   
     def getdistance(self,p2):
