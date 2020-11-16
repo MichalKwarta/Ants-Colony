@@ -2,7 +2,7 @@ import point
 from point import Point
 def write(filename,list):
     f=open(filename,'w+')
-    print(point.Point.count)
+    print(point.Point.count,file=f)
     for object in list:
         print(object,file=f)
 

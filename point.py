@@ -7,7 +7,6 @@ class Point:
     def __init__(self,id,X,Y):
         Point.count+=1
         self.id=id
-        
         if (X,Y) in Point.cords:
             raise("Już jest taki punkt")
         Point.cords.append((X,Y))
@@ -25,10 +24,12 @@ class Point:
         return ((self.x-p2.x)**2+(self.y-p2.y)**2)**0.5
     def getclosest(self,l:list): # zakładam, że nie znajduje sie na liście
         closest=l[0]
+        delta_distance=self.getdistance(closest)
         for point in l[1::]:
             if self.getdistance(point)<self.getdistance(closest):
                 closest=point
-        return closest
+                delta_distance=self.getdistance(closest)
+        return closest,delta_distance
     def __str__(self):
         return f"{self.id} {self.x} {self.y}"
 def generatelistofinstances(n:int):
