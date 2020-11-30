@@ -1,10 +1,11 @@
 import point
 from point import Point
-def write(filename,list):
+def write(filename,list,distance=None):
     f=open(filename,'w+')
     print(point.Point.count,file=f)
     for object in list:
         print(object,file=f)
+    print(distance,file=f)
 
 def read(filename):
     f=open(filename,'r')

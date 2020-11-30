@@ -1,7 +1,7 @@
 from file import write
 import point
 import file 
-import draw
-lista=point.generatelistofinstances(30)
+from drawing import draw
+lista=point.generatelistofinstances(10)
 write('asd.txt',lista)
-draw.draw(lista)
+draw(lista)

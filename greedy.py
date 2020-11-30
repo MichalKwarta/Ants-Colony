@@ -1,20 +1,33 @@
 import point
 import file
-listofinstances=file.read("asd.txt")
-#listofinstances=point.generatelistofinstances(10)
-#file.write('out.txt',listofinstances)
-print(*listofinstances,sep='\n')
-print()
-matrix=point.generatematrix(listofinstances)
-start=listofinstances[0]
-path=[listofinstances[0]]
-listofinstances=listofinstances[1::]
-distance=0
-while listofinstances!=[]:
-    next,delta=path[-1].getclosest(listofinstances)
-    distance+=delta
-    path.append(next)
-    listofinstances.pop(listofinstances.index(next))
-print(*path,sep='\n')
-print(f"distance: {distance}")
-#print(*matrix,sep='\n')
+
+
+def greedy(listofinstances):
+    path=[listofinstances[0]] #biore pierwszy wierzcholek jako poczatek
+
+    listofinstances=listofinstances[1::] 
+    distance=0
+
+    while listofinstances!=[]:
+        next,delta=path[-1].getclosest(listofinstances) 
+        distance+=delta
+        path.append(next)
+        listofinstances.pop(listofinstances.index(next))
+
+    distance+=path[0].getdistance(path[-1]) #zamykam cykl 
+    path.append(path[0])
+    return path,distance
+
+
+# for num in range(1,4):
+#     listofinstances=point.generatelistofinstances(50)
+
+#     file.write('in'+str(num)+'.txt',listofinstances)
+#     path,distance=greedy(listofinstances)
+#     file.write('out'+str(num)+'.txt',path,distance)
+    
+#     listofinstances.clear()
+#     path.clear()
+
+    
+
