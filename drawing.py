@@ -1,8 +1,6 @@
 from matplotlib import pyplot as plt
-import file 
+
 import point
-
-
 
 def drawArrow(A, B,head): #punkt punkt szerokosc_zakonczenia
     plt.arrow(A[0], A[1], B[0] - A[0], B[1] - A[1],

@@ -1,7 +1,10 @@
-from file import write
-import point
-import file 
+from point import *
 from drawing import draw
-lista=point.generatelistofinstances(10)
-write('asd.txt',lista)
-draw(lista)
+
+l=Point.read('berlin52.txt')
+
+out=Point.Ants(l)
+
+print(out)
+
+
