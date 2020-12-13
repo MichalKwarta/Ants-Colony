@@ -1,10 +1,11 @@
 from point import *
 from drawing import draw
 
-l=Point.read('berlin52.txt')
+l=Point.read('tsp250.txt')
+print(len(l))
+# out=Point.Ants(l)
 
-out=Point.Ants(l)
-
-print(out)
+# print(out)
+draw(l)
 
 

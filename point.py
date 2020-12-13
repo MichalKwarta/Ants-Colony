@@ -41,6 +41,7 @@ class Point:
 
     def __str__(self):
         return f"{self.id} {self.x} {self.y}"
+    
     @staticmethod
     def Ants(points_list):
         #Theory -> https://www.youtube.com/watch?v=783ZtAF4j5g
@@ -117,6 +118,8 @@ class Point:
         print()
         best = min(solutions, key=lambda x: x[1])
         return list(map(lambda x: x + 1, best[0])), best[1]
+    
+    
     @staticmethod
     def greedy(listofinstances):
         path=[listofinstances[0]] #biore pierwszy wierzcholek jako poczatek
@@ -132,6 +135,7 @@ class Point:
         distance+=path[0].getdistance(path[-1]) #zamykam cykl 
         path.append(path[0])
         return path,distance 
+
     @staticmethod   
     def write(filename,list,distance=None):
         f=open(filename,'w+')
@@ -139,6 +143,7 @@ class Point:
         for object in list:
             print(object,file=f)
         print(distance,file=f)
+
     @staticmethod 
     def read(filename):
         f=open(filename,'r')
