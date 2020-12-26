@@ -16,9 +16,9 @@ def draw(l:list):
     size=fig[0]*fig[1]
     
     for i in range(len(l)-1):
-        drawArrow((l[i].x,l[i].y),(l[i+1].x,l[i+1].y),size/20000)
+        drawArrow((l[i].x,l[i].y),(l[i+1].x,l[i+1].y),size/(2*10**4))
 
-    drawArrow((l[-1].x,l[-1].y),(l[0].x,l[0].y),size/20000)
+    drawArrow((l[-1].x,l[-1].y),(l[0].x,l[0].y),size/(2*10**4))
     for p in l:
         plt.annotate(p.id,(p.x,p.y))
 
