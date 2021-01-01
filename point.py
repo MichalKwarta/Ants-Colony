@@ -68,7 +68,7 @@ class Point:
             pheromones_matrix.append(pheromones_row)
         res = []
         for i in range(iterations_count):  # progress output
-            print(i, end=" ")
+            #print(i, end=" ")
             res = []
             for _ in range(ants_count):
                 current = 0
@@ -113,7 +113,7 @@ class Point:
                     v2 = path[i+1]
                     pheromones_matrix[v1][v2] += 1/length
                     pheromones_matrix[v2][v1] += 1/length
-        print()
+        #print()
         best = min(res, key=lambda x: x[1])
         return list(map(lambda x: x + 1, best[0])),evaporation_rate,alpha,beta,ants_count,iterations_count, best[1]
 
