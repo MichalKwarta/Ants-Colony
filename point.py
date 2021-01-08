@@ -1,7 +1,7 @@
 from random import randint, random
 from time import time
 MAX = 50
-
+TIME_LIMIT=50
 
 class Point:
     count = 0
@@ -68,7 +68,7 @@ class Point:
             pheromones_matrix.append(pheromones_row)
         res = []
         start=time()
-        while((time()-start)<50):  #TODO: Mieli 50 sekund
+        while((time()-start)<TIME_LIMIT):  #TODO: Mieli 50 sekund
             #print(i, end=" ")
             resant = []
             for _ in range(ants_count):  
@@ -118,17 +118,17 @@ class Point:
                     pheromones_matrix[v1][v2] += 1/length
                     pheromones_matrix[v2][v1] += 1/length
             path,length = min(resant,key=lambda x:x[1])
-            for i in range(len(path)-1):  #TODO: zobacz czy polepsza wyniki, jeśli nie - wywal
-                v1 = path[i]
-                v2 = path[i+1]
-                pheromones_matrix[v1][v2] += 1/length
-                pheromones_matrix[v2][v1] += 1/length
+            # for i in range(len(path)-1):  #TODO: zobacz czy polepsza wyniki, jeśli nie - wywal
+            #     v1 = path[i]
+            #     v2 = path[i+1]
+            #     pheromones_matrix[v1][v2] += 1/length
+            #     pheromones_matrix[v2][v1] += 1/length
             
             res+=resant
             
         #print()
         best = min(res, key=lambda x: x[1])
-        return list(map(lambda x: x + 1, best[0])),evaporation_rate,alpha,beta,ants_count, best[1]
+        return list(map(lambda x: x + 1, best[0])), best[1]
 
     @staticmethod
     def greedy(listofinstances):
