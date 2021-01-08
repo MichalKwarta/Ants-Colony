@@ -10,7 +10,8 @@ def main():
     for eva in range(1,11): #10
         for alpha in range(1,101,5): #20
                     start=time()
-                    args=[(l,eva/10,alpha,beta,400,40) for beta in range(1,101,5)] #20 
+                    args=[(l,eva/10,alpha,beta,30,50) for beta in range(1,101,5)] #20 
+                    #print(eva,alpha) 
                     '''
                     TODO: Dopasuj 2 ostatnie parametry - ilosc mrówek i iteracji(400,40)
                     tak żeby były dość duże ale nie mieliło za długo, wiesz o co chodzi xD
@@ -18,7 +19,7 @@ def main():
                     najwazniejsze zeby dobrac evaporation alphe i bete
                     '''
 
-                    with Pool(3) as pool: #w Pool wstawiasz liczbe wątków ile chcesz użyć, Ty masz 8 w procku
+                    with Pool(4) as pool: #w Pool wstawiasz liczbe wątków ile chcesz użyć, Ty masz 8 w procku
                         results=pool.starmap(Point.Ants,args)
                     for el in results:
                         solutions.append(el)

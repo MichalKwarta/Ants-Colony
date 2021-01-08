@@ -1,5 +1,5 @@
-from os import stat
 from random import randint, random
+from time import time
 MAX = 50
 
 
@@ -46,8 +46,8 @@ class Point:
     def Ants(points_list,evaporation_rate = 0.1,
         alpha = 15,
         beta = 200,
-        ants_count = 100,
-        iterations_count = 10):
+        ants_count = 30,
+        ):
         # Theory -> https://www.youtube.com/watch?v=783ZtAF4j5g
         distance_matrix = []
         pheromones_matrix = []
@@ -67,11 +67,12 @@ class Point:
             distance_matrix.append(costs_row)
             pheromones_matrix.append(pheromones_row)
         res = []
-        for i in range(iterations_count):  # progress output
+        start=time()
+        while((time()-start)<50):  #TODO: Mieli 50 sekund
             #print(i, end=" ")
-            res = []
-            for _ in range(ants_count):
-                current = 0
+            resant = []
+            for _ in range(ants_count):  
+                current = randint(0,len(points_list)-1)
                 visited = [0 for _ in range(len(distance_matrix))]
                 path = [current]
                 dist = 0
@@ -80,7 +81,7 @@ class Point:
                     numerators = []
                     denominator = 0
                     for ph, d, v in zip(pheromones_matrix[current], distance_matrix[current], visited):
-                        if v or d == 0:
+                        if v==1 or d == 0:
                             val = 0
                         else:  # not visited and not (x,x) pair
                             val = ph**alpha+(1/d)**beta
@@ -101,21 +102,33 @@ class Point:
                             break
                 path.append(path[0])
                 dist += distance_matrix[current][path[-1]]
-                res.append((path, dist))
+                resant.append((path, dist))
 
             # update pheromones
             for i in range(len(distance_matrix)):  # evaporation
                 for j in range(len(distance_matrix)):
                     pheromones_matrix[i][j] *= (1-evaporation_rate)
+
+
             for path, length in res:  # add pheromones after iteration
+                #local ph update
                 for i in range(len(path)-1):
                     v1 = path[i]
                     v2 = path[i+1]
                     pheromones_matrix[v1][v2] += 1/length
                     pheromones_matrix[v2][v1] += 1/length
+            path,length = min(resant,key=lambda x:x[1])
+            for i in range(len(path)-1):  #TODO: zobacz czy polepsza wyniki, jeśli nie - wywal
+                v1 = path[i]
+                v2 = path[i+1]
+                pheromones_matrix[v1][v2] += 1/length
+                pheromones_matrix[v2][v1] += 1/length
+            
+            res+=resant
+            
         #print()
         best = min(res, key=lambda x: x[1])
-        return list(map(lambda x: x + 1, best[0])),evaporation_rate,alpha,beta,ants_count,iterations_count, best[1]
+        return list(map(lambda x: x + 1, best[0])),evaporation_rate,alpha,beta,ants_count, best[1]
 
     @staticmethod
     def greedy(listofinstances):
@@ -152,6 +165,7 @@ class Point:
         for el in l:
             a, b, c = map(int, el[:-1].split())
             obj_list.append((a, b, c))
+        f.close()
         return obj_list
     @staticmethod
     def readPoints(filename):
@@ -164,6 +178,7 @@ class Point:
         for el in l:
             a, b, c = map(int, el[:-1].split())
             obj_list.append(Point(a, b, c))
+        f.close()
         return obj_list
 
 
