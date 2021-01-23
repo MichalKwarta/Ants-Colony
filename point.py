@@ -1,7 +1,7 @@
 from random import randint, random
 from time import time
-MAX = 50
-TIME_LIMIT=50
+MAX = 600
+TIME_LIMIT=100
 
 class Point:
     count = 0
@@ -63,7 +63,11 @@ class Point:
                 else:
                     dist = ((p1[1]-p2[1])**2+(p1[2]-p2[2])**2)**0.5
                     costs_row.append(dist)
-                    pheromones_row.append(1/dist)
+                    try:
+                        pheromones_row.append(1/dist)
+                    except ZeroDivisionError:
+                        print(p1,p2)
+                        break
             distance_matrix.append(costs_row)
             pheromones_matrix.append(pheromones_row)
         res = []
@@ -160,6 +164,7 @@ class Point:
         count = int(f.readline())
         l = f.readlines()
         if len(l) != count:
+            print(filename)
             raise('błąd danych')
         obj_list = []
         for el in l:
@@ -181,6 +186,92 @@ class Point:
         f.close()
         return obj_list
 
+    @staticmethod
+    def Ants_testing(points_list,evaporation_rate = 0.1,
+        alpha = 15,
+        beta = 200,
+        ants_count = 30,
+        iterations=0
+        ):
+        # Theory -> https://www.youtube.com/watch?v=783ZtAF4j5g
+        distance_matrix = []
+        pheromones_matrix = []
+        partial_results=[]
+
+        for p1 in points_list:
+            costs_row = []
+            pheromones_row = []
+            for p2 in points_list:
+                if p1 == p2:
+                    costs_row.append(0)
+                    pheromones_row.append(0)
+                else:
+                    dist = ((p1[1]-p2[1])**2+(p1[2]-p2[2])**2)**0.5
+                    costs_row.append(dist)
+                    pheromones_row.append(1/dist)
+            distance_matrix.append(costs_row)
+            pheromones_matrix.append(pheromones_row)
+        res = []
+        
+        while(iterations<20):  
+            iterations+=1
+            #print(i, end=" ")
+            resant = []
+            for _ in range(ants_count):  
+                current = randint(0,len(points_list)-1)
+                visited = [0 for _ in range(len(distance_matrix))]
+                path = [current]
+                dist = 0
+                while(len(path) < len(distance_matrix)):
+                    visited[current] = 1
+                    numerators = []
+                    denominator = 0
+                    for ph, d, v in zip(pheromones_matrix[current], distance_matrix[current], visited):
+                        if v==1 or d == 0:
+                            val = 0
+                        else:  # not visited and not (x,x) pair
+                            val = ph**alpha+(1/d)**beta
+                        numerators.append(val)
+                        denominator += val
+                    probabilities = list(
+                        map(lambda numerator: numerator / denominator, numerators))
+
+                    # roulette wheel
+                    choice_num = random()  # <0,1)
+                    probabilities_sum = 0
+                    for V, P in enumerate(probabilities):
+                        probabilities_sum += P
+                        if choice_num <= probabilities_sum and P != 0:
+                            dist += distance_matrix[current][V]
+                            path.append(V)
+                            current = V
+                            break
+                path.append(path[0])
+                dist += distance_matrix[current][path[-1]]
+                resant.append([path, dist])
+
+            # update pheromones
+            for i in range(len(distance_matrix)):  # evaporation
+                for j in range(len(distance_matrix)):
+                    pheromones_matrix[i][j] *= (1-evaporation_rate)
+
+
+            for path, length in resant:  # add pheromones after iteration
+                #local ph update
+                for i in range(len(path)-1):
+                    v1 = path[i]
+                    v2 = path[i+1]
+                    pheromones_matrix[v1][v2] += 1/length
+                    pheromones_matrix[v2][v1] += 1/length
+
+            res+=resant
+            tmp=min(resant,key=lambda x:x[1])
+            tmp[0]=list(map(lambda x:x+1,tmp[0]))
+            partial_results+=[tmp]
+            
+        
+        return partial_results
+
 
 def generatelistofinstances(n: int):
     l = []
@@ -201,3 +292,5 @@ def generatematrix(l: list):
                 row.append(round(p1.getdistance(p2)))
         matrix.append(row)
     return matrix
+
+

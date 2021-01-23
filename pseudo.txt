@@ -1,0 +1,22 @@
+Ustawienie parametrow
+Stworzenie macierzy odległosci i feromonów
+Uzupelnienie obu macierzy odpowiednio odległoscią i odwrotnoscią odleglosci
+while (czas_dzialania < Limit_czasu):
+{
+    for i in Ilosc_Mrowek
+    {
+        Losuj_Miasto_startowe
+        Utwórz_liste_odwiedzonych miast
+        while (ilosc_odwiedzonych_miast < ilosc_miast):
+        {
+            Oznacz_aktualne_miasto_jako_odwiedzone
+            Wylicz_prawdopodobienstwa // wg wzoru lub jesli odwiedzone
+            Wybierz miasto // (Technika Roulette Wheel)
+        }
+        Wroc_do_miasta_poczatkowego
+        Zapisz_trase
+    }
+    Wyparuj_feromony
+    Dodaj_feromony
+}
+return (najlepsza trasa)

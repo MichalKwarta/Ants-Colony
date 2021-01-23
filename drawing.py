@@ -10,17 +10,22 @@ def drawArrow(A, B,head): #punkt punkt szerokosc_zakonczenia
 def draw(l:list):
     #l=list of instances
     print(*l,sep='\n')
-
-    plt.plot([p.x for p in l],[p.y for p in l],'bo')
+    plt.style.use('fivethirtyeight')
+    plt.plot([p.x for p in l]+[l[0].x],[p.y for p in l]+[l[0].y],'bo')
+    
     fig=plt.gcf().get_size_inches()*plt.gcf().dpi
     size=fig[0]*fig[1]
     
     for i in range(len(l)-1):
-        drawArrow((l[i].x,l[i].y),(l[i+1].x,l[i+1].y),size/(2*10**4))
+        drawArrow((l[i].x,l[i].y),(l[i+1].x,l[i+1].y),size/(2*10**5))
 
-    drawArrow((l[-1].x,l[-1].y),(l[0].x,l[0].y),size/(2*10**4))
+    drawArrow((l[-1].x,l[-1].y),(l[0].x,l[0].y),size/(2*10**5))
     for p in l:
-        plt.annotate(p.id,(p.x,p.y))
+        plt.annotate(p.id,(p.x,p.y),fontsize=20)
 
     plt.show()
-
+def list_to_point(cords,path):
+    d={id:[x,y] for id,x,y in cords}
+    #[point.Point(x,*d[x]) for x in path]
+    return [point.Point(x,*d[x]) for x in path[:-1]]
+    
