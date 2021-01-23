@@ -43,9 +43,9 @@ class Point:
         return f"{self.id} {self.x} {self.y}"
 
     @staticmethod
-    def Ants(points_list,evaporation_rate = 0.1,
-        alpha = 15,
-        beta = 200,
+    def Ants(points_list,evaporation_rate = 0.2,
+        alpha = 6,
+        beta = 61,
         ants_count = 30,
         ):
         # Theory -> https://www.youtube.com/watch?v=783ZtAF4j5g
@@ -188,8 +188,8 @@ class Point:
 
     @staticmethod
     def Ants_testing(points_list,evaporation_rate = 0.1,
-        alpha = 15,
-        beta = 200,
+        alpha = 5,
+        beta = 1,
         ants_count = 30,
         iterations=0
         ):
@@ -213,7 +213,7 @@ class Point:
             pheromones_matrix.append(pheromones_row)
         res = []
         
-        while(iterations<20):  
+        while(iterations<20):   #20 iteracji na sztywno
             iterations+=1
             #print(i, end=" ")
             resant = []
