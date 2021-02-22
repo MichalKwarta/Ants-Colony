@@ -1,7 +1,7 @@
 from random import randint, random
 from time import time
 MAX = 600
-TIME_LIMIT=100
+TIME_LIMIT=200
 
 class Point:
     count = 0
@@ -121,12 +121,7 @@ class Point:
                     v2 = path[i+1]
                     pheromones_matrix[v1][v2] += 1/length
                     pheromones_matrix[v2][v1] += 1/length
-            path,length = min(resant,key=lambda x:x[1])
-            # for i in range(len(path)-1):  #TODO: zobacz czy polepsza wyniki, jeśli nie - wywal
-            #     v1 = path[i]
-            #     v2 = path[i+1]
-            #     pheromones_matrix[v1][v2] += 1/length
-            #     pheromones_matrix[v2][v1] += 1/length
+            
             
             res+=resant
             
