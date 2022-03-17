@@ -1,17 +1,22 @@
 import itertools
 import random
 from typing import Tuple
-
 import matplotlib.pyplot as plt
 import networkx as nx
 
 MAX = 600
 ITERATION_LIMIT = 30
-
+def nodesListNotNone(method):
+    def wrapper(*args, **kwargs):
+        if args[0].nodes_list is None:
+            print("No Nodes_list provided")
+            return [[-1],-1]
+        return method(*args,**kwargs)
+    return wrapper
 
 class NodesList:
 
-    nodes_list: list["Node"]
+    nodes_list: list["Node"] = None
 
     def __init__(self, filename: str = None):
         if filename is not None:
@@ -39,7 +44,7 @@ class NodesList:
             obj_list = []
             for el in l:
                 a, b, c = map(int, el[:-1].split())
-                obj_list.append(Node(a - 1, b, c))
+                obj_list.append(Node(a - 1, b, c)) #-1 due to indexing from 1 in datafiles
         self.nodes_list = obj_list
 
     def setRandomData(self, n: int):
@@ -51,6 +56,7 @@ class NodesList:
         """
         self.nodes_list = Node.randomNodesList(n)
 
+    @nodesListNotNone
     def greedy(self, plot=False) -> Tuple[list[int], float]:
         """
         Greedy approach to TSP problem
@@ -61,25 +67,27 @@ class NodesList:
         Returns:
             Tuple[list[int],float]: Tuple with list of nodes on path and total distance
         """
+            
         path = [self.nodes_list[0]]  # first node as start
         nodesToVisit = self.nodes_list[1:]
-        distance = 0
+        totalDistance = 0
         while nodesToVisit != []:
-            next, delta = path[-1].getclosest(nodesToVisit)
-            distance += delta
+            next, distance = path[-1].getclosest(nodesToVisit)
+            totalDistance += distance
             path.append(next)
             nodesToVisit.pop(nodesToVisit.index(next))
 
-        distance += path[0].getdistance(path[-1])  # go back to first node
+        totalDistance += path[0].getdistance(path[-1])  # go back to first node
         path.append(path[0])
         path = [node.id for node in path]
 
         if plot:
             self.plot(path)
 
-        return path, distance
+        return path, totalDistance
 
-    def Ants(
+    @nodesListNotNone
+    def antsColony(
         self,
         plot=False,
         iteration_limit: int = ITERATION_LIMIT,
@@ -224,6 +232,7 @@ class NodesList:
 
 class Node:
     cords: list[Tuple[int, int]] = []  # check if coordinates were already used
+
     def __init__(self, id: int, X: int, Y: int):
 
         if (X, Y) in Node.cords:
