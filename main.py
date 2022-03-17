@@ -1,4 +1,4 @@
-from point import  NodesList
+from Nodes import  NodesList
 
 FILENAME = "data/berlin52.txt"
 
