@@ -1,4 +1,4 @@
-# Embedded system project - Random number generator V2
+# Ant Colony Optimization for Combinatoral optimization classes
 
 ## Table of contents
 * [General info](#General-info)
