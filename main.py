@@ -1,11 +1,10 @@
 from Nodes import NodesList
 
-FILENAME = "data/berlin52.txt"
+FILENAME = "data/test8.txt"
 
 
 # points = PointsList(FILENAME)
 # path, _ = points.Ants(plot=True)
-nodes = NodesList()
-
+nodes = NodesList(FILENAME)
 path, distance = nodes.greedy(plot=True)
 print(distance)
