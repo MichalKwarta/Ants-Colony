@@ -1,9 +1,9 @@
 # Ant Colony Optimization for Combinatoral optimization classes
 
 ## Table of contents
-* [General info](#General-info)
-* [How it works](#How-it-works)
-* [Technologies](#technologies)
+* [General info](#general-info)
+* [How ACO works](#how-aco-works)
+* [Tech stack](#tech-stack)
 
 
 ## General info
@@ -17,7 +17,7 @@ Script also provides option to plot path with use of networkX
 
 ![Alt text](./readmeresources/Figure_1.png "Plot")
 
-## How ACO works?
+## How ACO works
 First, we initalize distance matrix,with well, distances between nodes, and pheromones matrix with 1/distance.
 After this, algorithm really starts - Ants choose next node randomly, but probability IS NOT even. It is equal to:
 
